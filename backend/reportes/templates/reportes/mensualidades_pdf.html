@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: Helvetica, sans-serif;
+            font-size: 12px;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+        }
+        h1 { color: #0056b3; margin: 0; font-size: 22px; }
+        .fecha-gen { color: #666; font-size: 10px; margin-top: 5px; }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .data-table th {
+            background-color: #0056b3;
+            color: white;
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+        }
+        .data-table td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+        }
+        .data-table tr:nth-child(even) { background-color: #f2f2f2; }
+        
+        .txt-verde { color: #28a745; font-weight: bold; }
+        .txt-rojo { color: #dc3545; font-weight: bold; }
+        .txt-naranja { color: #fd7e14; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Reporte de Cumplimiento de Mensualidades - Socios</h1>
+        <div class="fecha-gen">Generado el: {{ fecha }}</div>
+        <div class="fecha-gen">Periodo Evaluado: {{ filtros.desde }} al {{ filtros.hasta }}</div>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th width="30%">Socio / Transportista</th>
+                <th width="15%">Cédula</th>
+                <th width="15%">Estado (Mes)</th>
+                <th width="15%" align="center">Meses Atrasados</th>
+                <th width="25%" align="right">Deuda Total Acumulada</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fila in resultados %}
+            <tr>
+                <td>{{ fila.nombre }}</td>
+                <td>{{ fila.cedula }}</td>
+                <td>
+                    {% if fila.estado == 'PAGADO' %}
+                        <span class="txt-verde">Pagó ({{ fila.monto_pagado }})</span>
+                    {% else %}
+                        <span class="txt-rojo">No Pagó</span>
+                    {% endif %}
+                </td>
+                <td align="center">
+                    {% if fila.meses_adeudados == 0 %}
+                        <span class="txt-verde">Al día (0)</span>
+                    {% else %}
+                        <span class="txt-naranja">{{ fila.meses_adeudados }} mes(es)</span>
+                    {% endif %}
+                </td>
+                <td align="right">
+                    {% if fila.deuda_total == 0 %}
+                        <span class="txt-verde">$0.00</span>
+                    {% else %}
+                        <span class="txt-rojo"><strong>${{ fila.deuda_total }}</strong></span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" align="center" style="padding: 20px;">No se encontraron socios registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

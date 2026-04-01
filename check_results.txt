@@ -1,0 +1,43 @@
+--- Checking Transportistas and Vehicles ---
+Total Transportistas (Role 'TRANSP'): 11
+
+Transportista: transportista1 (Active: True)
+  - Vehiculo ID: 1, Placa: GCA-1022, Tipo: Camión, Estado: ACTIVO
+    -> MEETS CRITERIA: YES
+
+Transportista: transportista2 (Active: True)
+  - Vehiculo ID: 2, Placa: PBF-4589, Tipo: Trailer, Estado: ACTIVO
+    -> MEETS CRITERIA: YES
+  - Vehiculo ID: 3, Placa: GCA-1020, Tipo: Camión, Estado: ACTIVO
+    -> MEETS CRITERIA: YES
+
+Transportista: cliente48 (Active: False)
+  - No vehicles assigned.
+
+Transportista: cliente5 (Active: True)
+  - Vehiculo ID: 4, Placa: AZQ-4589, Tipo: Furgón, Estado: ACTIVO
+    -> MEETS CRITERIA: YES
+
+Transportista: cliente11 (Active: True)
+  - No vehicles assigned.
+
+Transportista: usuariotest10 (Active: True)
+  - No vehicles assigned.
+
+Transportista: usuariotest9 (Active: True)
+  - No vehicles assigned.
+
+Transportista: usuariotest8 (Active: True)
+  - No vehicles assigned.
+
+Transportista: usuariotest7 (Active: True)
+  - Vehiculo ID: 7, Placa: MTU-555, Tipo: Furgón, Estado: ACTIVO
+    -> MEETS CRITERIA: YES
+
+Transportista: usuariotest6 (Active: True)
+  - Vehiculo ID: 6, Placa: TPO-456, Tipo: Camión, Estado: ACTIVO
+    -> MEETS CRITERIA: YES
+
+Transportista: usuariotest5 (Active: True)
+  - Vehiculo ID: 5, Placa: QRT-543, Tipo: Volqueta, Estado: ACTIVO
+    -> MEETS CRITERIA: YES

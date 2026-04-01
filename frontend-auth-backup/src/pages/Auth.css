@@ -1,0 +1,307 @@
+:root {
+  --vlc-auth-primary: #279200;
+  --vlc-auth-dark: #1a1f1a;
+  --vlc-auth-white: #ffffff;
+  --vlc-auth-bg: #f0f4f1;
+}
+
+.vlc-auth-page {
+  background: var(--vlc-auth-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+}
+
+.vlc-auth-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  color: var(--vlc-auth-primary);
+  font-weight: 800;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.vlc-auth-container {
+  background-color: var(--vlc-auth-white);
+  border-radius: 20px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+  width: 999px;
+  max-width: 100%;
+  min-height: 550px;
+}
+
+.vlc-auth-mobile-switch {
+  display: none;
+}
+
+.vlc-auth-form-side {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+}
+
+.vlc-login-side {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.vlc-signup-side {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.vlc-auth-container.vlc-right-active .vlc-login-side {
+  transform: translateX(100%);
+}
+
+.vlc-auth-container.vlc-right-active .vlc-signup-side {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: vlcShow 0.6s;
+}
+
+@keyframes vlcShow {
+  0%, 49.9% { opacity: 0; z-index: 1; }
+  50%, 100% { opacity: 1; z-index: 5; }
+}
+
+.vlc-auth-form-side form {
+  background-color: var(--vlc-auth-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  height: 100%;
+  text-align: center;
+}
+
+.vlc-auth-form-side h1 {
+  color: var(--vlc-auth-primary);
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+.vlc-auth-input-group {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.vlc-auth-form-side input {
+  background-color: #f8fbf8;
+  border: 1px solid #e2eee2;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+  border-radius: 8px;
+  outline: none;
+}
+
+.vlc-auth-form-side input:focus {
+  border-color: var(--vlc-auth-primary);
+}
+
+.vlc-auth-forgot {
+  color: #666;
+  font-size: 13px;
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+.vlc-auth-forgot:hover { text-decoration: underline; }
+
+.vlc-auth-btn-main {
+  border-radius: 50px;
+  border: none;
+  background-color: var(--vlc-auth-primary);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: transform 80ms ease-in;
+}
+
+.vlc-auth-btn-main:active { transform: scale(0.95); }
+
+/* OVERLAY SECTION */
+.vlc-auth-overlay-side {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
+
+.vlc-auth-container.vlc-right-active .vlc-auth-overlay-side {
+  transform: translateX(-100%);
+}
+
+.vlc-auth-overlay {
+  background: linear-gradient(135deg, #279200 0%, #1e7300 100%);
+  color: white;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.vlc-auth-container.vlc-right-active .vlc-auth-overlay {
+  transform: translateX(50%);
+}
+
+.vlc-auth-overlay-panel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+}
+
+.vlc-overlay-right { right: 0; }
+
+.vlc-auth-overlay h1 { color: white; margin-bottom: 20px; }
+.vlc-auth-overlay p { font-size: 14px; margin-bottom: 30px; line-height: 1.5; }
+
+.vlc-auth-btn-ghost {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  border-radius: 50px;
+  padding: 10px 40px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.vlc-auth-error { color: #d32f2f; font-size: 12px; margin: 10px 0; font-weight: 600; }
+.vlc-auth-success { color: #2e7d32; font-size: 12px; margin: 10px 0; font-weight: 600; }
+
+@media (max-width: 768px) {
+  .vlc-auth-page {
+    padding: 72px 16px 24px;
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .vlc-auth-back {
+    top: 16px;
+    left: 16px;
+  }
+
+  .vlc-auth-container {
+    width: 100%;
+    min-height: auto;
+    border-radius: 24px;
+  }
+
+  .vlc-auth-mobile-switch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 32px 24px;
+    background: linear-gradient(135deg, #279200 0%, #1e7300 100%);
+    color: var(--vlc-auth-white);
+  }
+
+  .vlc-auth-mobile-switch h1 {
+    margin: 0 0 12px;
+    color: var(--vlc-auth-white);
+  }
+
+  .vlc-auth-mobile-switch p {
+    margin: 0 0 20px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .vlc-auth-form-side {
+    position: relative;
+    width: 100%;
+    height: auto;
+    top: auto;
+    left: auto;
+    transform: none !important;
+    transition: none;
+    display: none;
+    opacity: 1;
+  }
+
+  .vlc-auth-side-active {
+    display: block;
+  }
+
+  .vlc-auth-form-side form {
+    height: auto;
+    padding: 28px 20px 32px;
+  }
+
+  .vlc-auth-overlay-side {
+    display: none;
+  }
+
+  .vlc-login-side,
+  .vlc-signup-side {
+    width: 100%;
+  }
+
+  .vlc-auth-input-group {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .vlc-auth-btn-main,
+  .vlc-auth-btn-ghost {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .vlc-auth-error,
+  .vlc-auth-success {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .vlc-auth-mobile-switch {
+    padding: 28px 18px;
+  }
+
+  .vlc-auth-form-side form {
+    padding: 24px 16px 28px;
+  }
+
+  .vlc-auth-form-side h1,
+  .vlc-auth-mobile-switch h1 {
+    font-size: 28px;
+  }
+}

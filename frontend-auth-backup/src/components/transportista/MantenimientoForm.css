@@ -1,0 +1,132 @@
+:root {
+  --vlc-mnt-primary: #279200;
+  --vlc-mnt-primary-dark: #1e7300;
+  --vlc-mnt-bg: #ffffff;
+  --vlc-mnt-text: #1e293b;
+  --vlc-mnt-muted: #64748b;
+  --vlc-mnt-border: #e2e8f0;
+}
+
+.vlc-mnt-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  animation: vlcMntFadeIn 0.5s ease-out;
+}
+
+.vlc-mnt-form {
+  background-color: var(--vlc-mnt-bg);
+  width: 100%;
+  max-width: 600px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--vlc-mnt-border);
+  overflow: hidden;
+}
+
+.vlc-mnt-header {
+  padding: 2rem;
+  background-color: #fafbfc;
+  border-bottom: 1px solid var(--vlc-mnt-border);
+  text-align: center;
+}
+
+.vlc-mnt-header h2 {
+  color: var(--vlc-mnt-primary);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.vlc-mnt-header p {
+  color: var(--vlc-mnt-muted);
+  font-size: 0.9rem;
+}
+
+.vlc-mnt-body {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vlc-mnt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.vlc-mnt-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vlc-mnt-field label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--vlc-mnt-text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.vlc-mnt-field input,
+.vlc-mnt-field select,
+.vlc-mnt-field textarea {
+  padding: 0.8rem 1rem;
+  border: 1.5px solid var(--vlc-mnt-border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.vlc-mnt-field input:focus,
+.vlc-mnt-field select:focus,
+.vlc-mnt-field textarea:focus {
+  border-color: var(--vlc-mnt-primary);
+  box-shadow: 0 0 0 3px rgba(39, 146, 0, 0.1);
+}
+
+.vlc-mnt-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.vlc-mnt-submit {
+  background-color: var(--vlc-mnt-primary);
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  margin-top: 1rem;
+}
+
+.vlc-mnt-submit:hover:not(:disabled) {
+  background-color: var(--vlc-mnt-primary-dark);
+  transform: translateY(-2px);
+}
+
+.vlc-mnt-submit:disabled {
+  background-color: #cbd5e1;
+  cursor: not-allowed;
+}
+
+@keyframes vlcMntFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .vlc-mnt-grid {
+    grid-template-columns: 1fr;
+  }
+  .vlc-mnt-body {
+    padding: 1.5rem;
+  }
+}

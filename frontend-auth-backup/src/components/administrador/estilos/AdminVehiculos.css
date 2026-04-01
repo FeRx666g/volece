@@ -1,0 +1,70 @@
+.vlc-veh-container {
+  width: 100%;
+  animation: vlcFadeIn 0.4s ease-out;
+}
+
+.vlc-veh-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.vlc-veh-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2.2rem 1.5rem;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  border-left: 6px solid #22c55e;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.vlc-veh-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+  border-left-color: #166534;
+}
+
+.vlc-veh-icon {
+  font-size: 2.8rem;
+  color: #15803d;
+  margin-bottom: 1.5rem;
+}
+
+.vlc-veh-link {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.vlc-veh-link h2 {
+  font-size: 1.35rem;
+  color: #166534;
+  margin-bottom: 0.6rem;
+  font-weight: 700;
+}
+
+.vlc-veh-link p {
+  color: #4b5563;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+@keyframes vlcFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 850px) {
+  .vlc-veh-grid {
+    grid-template-columns: 1fr;
+    max-width: 450px;
+  }
+}

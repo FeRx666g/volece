@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: A4;
+            margin: 1.5cm;
+            margin-bottom: 2.5cm;
+
+            @frame footer {
+                -pdf-frame-content: footer_content;
+                bottom: 1cm;
+                margin-left: 1.5cm;
+                margin-right: 1.5cm;
+                height: 1cm;
+            }
+        }
+
+        body {
+            font-family: Helvetica, sans-serif;
+            color: #333;
+            font-size: 10px;
+        }
+
+        .header-table {
+            width: 100%;
+            border-bottom: 2px solid #256d39;
+            margin-bottom: 20px;
+        }
+
+        .header-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #256d39;
+        }
+
+        .header-info {
+            text-align: right;
+            color: #666;
+        }
+
+        .report-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .report-title h2 {
+            margin: 0;
+            color: #2d3436;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+
+        .meta-info {
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #256d39;
+        }
+
+        table.main-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table.main-table th {
+            background-color: #256d39;
+            color: white;
+            padding: 8px;
+            font-size: 9px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        table.main-table td {
+            padding: 7px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+            word-wrap: break-word;
+            /* Prevent overflow */
+            word-break: break-all;
+        }
+
+        .row-even {
+            background-color: #fcfcfc;
+        }
+
+        .status-badge {
+            font-weight: bold;
+            color: #256d39;
+            text-align: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="header-table">
+        <tr>
+            <td class="header-logo">VOLECE C.A.</td>
+            <td class="header-info">
+                Sistema de Gestión de Transporte Pesado<br>
+                Riobamba, Ecuador
+            </td>
+        </tr>
+    </table>
+
+    <div class="report-title">
+        <h2>Reporte Detallado de Solicitudes</h2>
+    </div>
+
+    <div class="meta-info">
+        Fecha de emisión: {{ fecha }}<br>
+        Total de registros encontrados: {{ solicitudes|length }}
+    </div>
+
+    <table class="main-table">
+        <thead>
+            <tr>
+                <th style="width: 5%;">ID</th>
+                <th style="width: 20%;">Cliente</th>
+                <th style="width: 12%;">Fecha</th>
+                <th style="width: 28%;">Ruta (Origen / Destino)</th>
+                <th style="width: 23%;">Detalles (Carga / Vehículo)</th>
+                <th style="width: 12%;">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in solicitudes %}
+            <tr class="{% cycle '' 'row-even' %}">
+                <td class="text-center">{{ s.id }}</td>
+                <td><strong>{{ s.cliente.first_name }} {{ s.cliente.last_name }}</strong></td>
+                <td class="text-center">{{ s.fecha_solicitud|date:"d/m/Y" }}</td>
+                <td>
+                    {{ s.origen }}<br>
+                    <span style="color: #666;">→ {{ s.destino }}</span>
+                </td>
+                <td>
+                    {{ s.tipo_carga }}<br>
+                    <span style="color: #666; font-size: 8px;">Vehículo: {{ s.tipo_vehiculo }}</span>
+                </td>
+                <td class="status-badge">{{ s.estado.nombre|default:"-" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 20px;">No se encontraron solicitudes con los filtros
+                    aplicados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div id="footer_content" style="text-align: center; font-size: 9px; color: #999;">
+        Página <pdf:pagenumber> de <pdf:pagecount> | Generado automáticamente por VOLECE C.A.
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,322 @@
+:root {
+  --vlc-green-dark: #166534;
+  --vlc-green-mid: #256d39;
+  --vlc-green-accent: #22c55e;
+  --vlc-bg-body: #ffffff;
+  --vlc-text-main: #2d3436;
+  --vlc-border: #e2e8f0;
+  --vlc-red: #dc3545;
+  --vlc-blue: #007bff;
+}
+
+.vlc-fin-container {
+  padding: 2rem;
+  animation: vlcFadeIn 0.5s ease-out;
+}
+
+.vlc-fin-header h2 {
+  font-size: 1.8rem;
+  color: var(--vlc-green-dark);
+  margin-bottom: 2rem;
+}
+
+/* TARJETAS DE RESUMEN */
+.vlc-fin-summary-grid {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 2.5rem;
+}
+
+.vlc-fin-summary-card {
+  flex: 1;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--vlc-border);
+}
+
+.vlc-fin-card-ingreso {
+  border-left: 6px solid var(--vlc-green-accent);
+}
+
+.vlc-fin-card-gasto {
+  border-left: 6px solid var(--vlc-red);
+}
+
+.vlc-fin-card-balance {
+  border-left: 6px solid var(--vlc-blue);
+}
+
+.vlc-fin-card-balance.vlc-fin-negative {
+  border-left-color: var(--vlc-red);
+}
+
+.vlc-fin-summary-card h4 {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.vlc-fin-summary-card p {
+  margin: 0.5rem 0 0;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--vlc-text-main);
+}
+
+/* FILTROS Y BOTONES */
+.vlc-fin-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.vlc-fin-filters {
+  display: flex;
+  gap: 10px;
+}
+
+.vlc-fin-input,
+.vlc-fin-select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--vlc-border);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.vlc-fin-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.vlc-fin-btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s;
+}
+
+.vlc-btn-add {
+  background: var(--vlc-green-mid);
+  color: white;
+}
+
+.vlc-btn-pdf {
+  background: #cc3333;
+  color: white;
+}
+
+.vlc-fin-btn:hover {
+  opacity: 0.9;
+}
+
+/* TABLA FINANCIERA */
+.vlc-fin-table-wrapper {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--vlc-border);
+  overflow-x: auto;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.vlc-fin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.vlc-fin-table th {
+  background-color: var(--vlc-green-mid);
+  color: white;
+  padding: 15px;
+  text-align: left;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.vlc-fin-table td {
+  padding: 15px;
+  border-bottom: 1px solid var(--vlc-border);
+  font-size: 0.9rem;
+}
+
+.vlc-fin-tag {
+  font-weight: 800;
+  font-size: 0.75rem;
+}
+
+.vlc-fin-tag.INGRESO {
+  color: #16a34a;
+}
+
+.vlc-fin-tag.GASTO {
+  color: #dc2626;
+}
+
+.vlc-fin-amount {
+  font-weight: 800;
+}
+
+.vlc-fin-empty {
+  text-align: center;
+  padding: 2rem;
+  color: #94a3b8;
+}
+
+/* MODAL REGISTRO */
+.vlc-fin-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.vlc-fin-modal-card {
+  background: white;
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  animation: vlcSlideDown 0.4s ease;
+}
+
+.vlc-fin-modal-card h3 {
+  margin-bottom: 1.5rem;
+  color: var(--vlc-green-dark);
+  text-align: center;
+}
+
+.vlc-fin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.vlc-fin-field label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--vlc-text-main);
+}
+
+.vlc-fin-form input,
+.vlc-fin-form select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--vlc-border);
+  border-radius: 8px;
+  outline: none;
+}
+
+.vlc-fin-modal-btns {
+  display: flex;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.vlc-fin-btn-save {
+  flex: 1;
+  padding: 12px;
+  background: var(--vlc-green-mid);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.vlc-fin-btn-cancel {
+  flex: 1;
+  padding: 12px;
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@keyframes vlcFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vlcSlideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .vlc-fin-summary-grid {
+    flex-wrap: wrap;
+  }
+  .vlc-fin-summary-card {
+    flex: 1 1 calc(50% - 10px);
+  }
+}
+
+@media (max-width: 768px) {
+  .vlc-fin-container {
+    padding: 1rem;
+  }
+  .vlc-fin-summary-grid {
+    flex-direction: column;
+  }
+  .vlc-fin-summary-card {
+    flex: 1 1 100%;
+  }
+  .vlc-fin-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .vlc-fin-filters {
+    flex-direction: column;
+  }
+  .vlc-fin-input,
+  .vlc-fin-select {
+    width: 100%;
+  }
+  .vlc-fin-actions {
+    flex-direction: column;
+  }
+  .vlc-fin-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .vlc-fin-modal-card {
+    margin: 16px;
+    padding: 2rem 1.25rem;
+    max-width: calc(100% - 32px);
+  }
+}

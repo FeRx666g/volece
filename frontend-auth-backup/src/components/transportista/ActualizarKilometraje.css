@@ -1,0 +1,134 @@
+:root {
+  --vlc-km-primary: #279200;
+  --vlc-km-primary-dark: #1e7300;
+  --vlc-km-bg: #ffffff;
+  --vlc-km-text: #1e293b;
+  --vlc-km-muted: #64748b;
+  --vlc-km-border: #e2e8f0;
+}
+
+.vlc-km-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  animation: vlcKmFadeIn 0.5s ease-out;
+}
+
+.vlc-km-card {
+  background-color: var(--vlc-km-bg);
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--vlc-km-border);
+  overflow: hidden;
+}
+
+.vlc-km-header {
+  padding: 2rem;
+  background-color: #fafbfc;
+  border-bottom: 1px solid var(--vlc-km-border);
+  text-align: center;
+}
+
+.vlc-km-header h2 {
+  color: var(--vlc-km-primary);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.vlc-km-header p {
+  color: var(--vlc-km-muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.vlc-km-form {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vlc-km-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vlc-km-field label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--vlc-km-text);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.vlc-km-field input {
+  padding: 0.8rem 1rem;
+  border: 1.5px solid var(--vlc-km-border);
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.2s;
+  text-align: center;
+  color: var(--vlc-km-text);
+}
+
+.vlc-km-field input:focus {
+  border-color: var(--vlc-km-primary);
+  box-shadow: 0 0 0 3px rgba(39, 146, 0, 0.1);
+}
+
+.vlc-km-submit {
+  background-color: var(--vlc-km-primary);
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.vlc-km-submit:hover:not(:disabled) {
+  background-color: var(--vlc-km-primary-dark);
+  transform: translateY(-2px);
+}
+
+.vlc-km-submit:disabled {
+  background-color: #cbd5e1;
+  cursor: not-allowed;
+}
+
+@keyframes vlcKmFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .vlc-km-card {
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+}
+
+.vlc-km-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+  margin-bottom: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.vlc-km-select:focus {
+  border-color: #279200;
+}

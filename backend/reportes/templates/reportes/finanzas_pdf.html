@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: Helvetica, sans-serif;
+            font-size: 12px;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+        }
+        h1 { color: #0056b3; margin: 0; font-size: 22px; }
+        .fecha-gen { color: #666; font-size: 10px; margin-top: 5px; }
+
+        .resumen-table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: separate;
+            border-spacing: 10px;
+        }
+        .card {
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+        .monto-grande { font-size: 18px; font-weight: bold; display: block; margin-top: 5px; }
+        .txt-verde { color: #28a745; }
+        .txt-rojo { color: #dc3545; }
+        .txt-azul { color: #007bff; }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .data-table th {
+            background-color: #0056b3;
+            color: white;
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+        }
+        .data-table td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+        }
+        .data-table tr:nth-child(even) { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Reporte Financiero - VOLECE C.A.</h1>
+        <div class="fecha-gen">Generado el: {{ fecha }}</div>
+        {% if filtros.desde or filtros.hasta %}
+            <div class="fecha-gen">Periodo: {{ filtros.desde|default:"Inicio" }} al {{ filtros.hasta|default:"Hoy" }}</div>
+        {% endif %}
+    </div>
+
+    <table class="resumen-table">
+        <tr>
+            <td class="card">
+                <span style="color: #666;">Ingresos</span><br>
+                <span class="monto-grande txt-verde">${{ ingresos }}</span>
+            </td>
+            <td class="card">
+                <span style="color: #666;">Gastos</span><br>
+                <span class="monto-grande txt-rojo">${{ gastos }}</span>
+            </td>
+            <td class="card">
+                <span style="color: #666;">Balance Neto</span><br>
+                <span class="monto-grande txt-azul">${{ balance }}</span>
+            </td>
+        </tr>
+    </table>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th width="15%">Fecha</th>
+                <th width="15%">Tipo</th>
+                <th width="40%">Descripción</th>
+                <th width="15%">Registrado Por</th>
+                <th width="15%" align="right">Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for mov in movimientos %}
+            <tr>
+                <td>{{ mov.fecha|date:"d/m/Y" }}</td>
+                <td>
+                    {% if mov.tipo == 'INGRESO' %}
+                        <span class="txt-verde">Ingreso</span>
+                    {% else %}
+                        <span class="txt-rojo">Gasto</span>
+                    {% endif %}
+                </td>
+                <td>{{ mov.descripcion|default:"-" }}</td>
+                <td>{{ mov.usuario.first_name }} {{ mov.usuario.last_name }}</td>
+                <td align="right"><strong>${{ mov.monto }}</strong></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" align="center" style="padding: 20px;">No se encontraron registros para este periodo.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

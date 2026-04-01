@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # 1. Base de datos PostgreSQL
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # 2. Redis (Requerido para Celery y tareas en segundo plano que me mencionaste en el proyecto)
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
+
+  # 3. Backend (Django)
+  backend:
+    build: ./backend
+    restart: always
+    # Este comando corre las migraciones automáticamente cada vez que levanta antes de encender Gunicorn
+    command: >
+      bash -c "python manage.py makemigrations &&
+               python manage.py migrate &&
+               gunicorn --bind 0.0.0.0:8000 gestion_transporte.wsgi:application"
+    environment:
+      - DEBUG=False  # Para producción
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=db  # Usa el nombre del servicio de docker
+      - POSTGRES_PORT=5432
+      - REDIS_URL=redis://redis:6379/1
+      - ALLOWED_HOSTS=${PUBLIC_DOMAIN},127.0.0.1,localhost
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+
+  # 4. Celery Worker (Para que los correos o reportes automáticos no bloqueen al backend)
+  celery:
+    build: ./backend
+    command: celery -A gestion_transporte worker -l info
+    depends_on:
+      - backend
+      - redis
+
+  # 5. Frontend (React servido en Nginx)
+  frontend:
+    build: 
+      context: ./frontend-auth-backup
+      args:
+        - REACT_APP_API_URL=${REACT_APP_API_URL:-http://127.0.0.1:8000/api}
+    restart: always
+    ports:
+      - "80:80"
+
+  # 6. Servidor n8n Automations
+  n8n:
+    image: n8nio/n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - WEBHOOK_URL=${N8N_WEBHOOK_URL}
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE:-America/Guayaquil}
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  postgres_data:
+  n8n_data:

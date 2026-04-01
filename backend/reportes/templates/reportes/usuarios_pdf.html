@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page { margin: 1.5cm; }
+        body { font-family: Helvetica, sans-serif; color: #333; font-size: 10px; }
+        .header-table { width: 100%; border-bottom: 2px solid #256d39; margin-bottom: 20px; }
+        .header-logo { font-size: 24px; font-weight: bold; color: #256d39; }
+        
+        .report-title { text-align: center; margin-bottom: 20px; }
+        .report-title h2 { margin: 0; color: #2d3436; text-transform: uppercase; font-size: 16px; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { background-color: #256d39; color: white; padding: 10px; text-align: left; }
+        td { padding: 8px; border-bottom: 1px solid #f2f2f2; }
+        .row-even { background-color: #f9f9f9; }
+        
+        .role-tag { 
+            padding: 2px 5px; 
+            background-color: #e9f5ed; 
+            color: #256d39; 
+            border-radius: 3px; 
+            font-weight: bold; 
+        }
+    </style>
+</head>
+<body>
+    <table class="header-table">
+        <tr>
+            <td class="header-logo">VOLECE C.A.</td>
+            <td style="text-align: right; color: #666;">Reporte de Personal y Clientes</td>
+        </tr>
+    </table>
+
+    <div class="report-title">
+        <h2>Directorio de Usuarios Registrados</h2>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 8%;">ID</th>
+                <th style="width: 20%;">Cédula/RUC</th>
+                <th style="width: 30%;">Nombre Completo</th>
+                <th style="width: 27%;">Correo Electrónico</th>
+                <th style="width: 15%;">Rol</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr class="{% cycle '' 'row-even' %}">
+                <td style="text-align: center;">{{ u.id }}</td>
+                <td>{{ u.cedula_ruc }}</td>
+                <td><strong>{{ u.last_name }} {{ u.first_name }}</strong></td>
+                <td>{{ u.email }}</td>
+                <td><span class="role-tag">{{ u.rol.nombre }}</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="margin-top: 30px; font-size: 8px; color: #aaa; text-align: right;">
+        Generado el {{ fecha }}
+    </div>
+</body>
+</html>

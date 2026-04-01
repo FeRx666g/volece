@@ -1,0 +1,428 @@
+:root {
+  --vlc-primary: #279200;
+  --vlc-primary-dark: #1e7300;
+  --vlc-text-dark: #1e293b;
+  --vlc-text-light: #64748b;
+  --vlc-bg-alt: #f8fafc;
+  --vlc-white: #ffffff;
+  --vlc-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  --vlc-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vlc-home-master {
+  overflow-x: hidden;
+  background-color: var(--vlc-white);
+}
+
+.vlc-home-content-width {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.vlc-home-section {
+  padding: 80px 0;
+  animation: vlcFadeUp 0.8s ease-out both;
+}
+
+.vlc-home-bg-alt {
+  background-color: var(--vlc-bg-alt);
+}
+
+.vlc-home-title {
+  text-align: center;
+  font-size: 2.2rem;
+  color: var(--vlc-text-dark);
+  margin-bottom: 3rem;
+  font-weight: 800;
+}
+
+.vlc-home-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.vlc-home-card {
+  background: var(--vlc-white);
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: var(--vlc-shadow);
+  transition: var(--vlc-transition);
+  border: 1px solid #f1f5f9;
+}
+
+.vlc-home-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 30px -10px rgba(39, 146, 0, 0.2);
+}
+
+.vlc-home-card-icon {
+  font-size: 3rem;
+  color: var(--vlc-primary);
+  margin-bottom: 1.5rem;
+}
+
+.vlc-home-card h3 {
+  color: var(--vlc-text-dark);
+  margin-bottom: 1rem;
+}
+
+.vlc-home-card p {
+  color: var(--vlc-text-light);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.vlc-home-banner {
+  height: 60vh;
+  background: url('../img/banner.jpg') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+
+.vlc-home-banner-overlay {
+  background: rgba(0, 0, 0, 0.6);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+.vlc-home-banner-text {
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.vlc-home-banner-text h1 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.vlc-home-btn-cta {
+  display: inline-block;
+  background: var(--vlc-primary);
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: var(--vlc-transition);
+  border: none;
+  cursor: pointer;
+}
+
+.vlc-home-btn-cta:hover {
+  background: var(--vlc-primary-dark);
+  transform: scale(1.05);
+}
+
+.vlc-home-btn-cta-outline {
+  display: inline-block;
+  background: transparent;
+  color: var(--vlc-white);
+  border: 2px solid var(--vlc-white);
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: var(--vlc-transition);
+  cursor: pointer;
+  margin-top: 2rem;
+}
+
+.vlc-home-btn-cta-outline:hover {
+  background: var(--vlc-white);
+  color: var(--vlc-primary);
+  transform: scale(1.05);
+}
+
+.vlc-home-dual-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.vlc-home-list {
+  list-style: none;
+  padding: 0;
+}
+
+.vlc-home-list li {
+  padding: 12px 0 12px 35px;
+  position: relative;
+  font-size: 1.1rem;
+  color: var(--vlc-text-dark);
+}
+
+.vlc-home-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--vlc-primary);
+  font-weight: 900;
+  font-size: 1.3rem;
+}
+
+.vlc-home-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.vlc-home-stat-box {
+  background: var(--vlc-primary);
+  color: white;
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.vlc-home-stat-box h3 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+.vlc-home-video-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 450px; 
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--vlc-shadow);
+  background: #000;
+  border: 4px solid var(--vlc-white);
+}
+
+.vlc-home-video-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  display: block;
+}
+
+.vlc-home-map-frame {
+  max-width: 1000px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--vlc-shadow);
+  background: #000;
+}
+
+.vlc-home-cta-final {
+  background-color: var(--vlc-primary);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+  border-radius: 20px;
+  margin: 40px auto;
+  max-width: 1200px;
+}
+
+.vlc-home-cta-final h2, .vlc-home-cta-final p {
+  color: var(--vlc-white);
+}
+
+.vlc-home-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.vlc-home-modal-card {
+  background: var(--vlc-white);
+  width: 90%;
+  max-width: 600px;
+  padding: 3rem;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+  animation: vlcZoomIn 0.3s ease-out;
+  text-align: center;
+}
+
+.vlc-home-modal-card h2 {
+  color: var(--vlc-primary);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+
+.vlc-home-contact-info p {
+  font-size: 1.1rem;
+  color: var(--vlc-text-dark);
+  margin-bottom: 1rem;
+}
+
+.vlc-home-phones {
+  margin: 1.5rem 0;
+}
+
+.vlc-home-socials {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.vlc-home-socials a {
+  color: var(--vlc-primary);
+  font-size: 2rem;
+  transition: var(--vlc-transition);
+}
+
+.vlc-home-socials a:hover {
+  color: var(--vlc-primary-dark);
+  transform: translateY(-3px);
+}
+
+.vlc-home-btn-primary {
+  background: var(--vlc-primary);
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 12px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--vlc-transition);
+}
+
+.vlc-home-btn-primary:hover {
+  background: var(--vlc-primary-dark);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .vlc-home-dual-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .vlc-home-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .vlc-home-banner {
+    background-attachment: scroll;
+    height: 65vh;
+  }
+  .vlc-home-banner-text h1 {
+    font-size: 2rem;
+  }
+  .vlc-home-banner-text p {
+    font-size: 1rem;
+  }
+  .vlc-home-section {
+    padding: 50px 0;
+  }
+  .vlc-home-title {
+    font-size: 1.7rem;
+    margin-bottom: 2rem;
+  }
+  .vlc-home-services-grid {
+    grid-template-columns: 1fr;
+  }
+  .vlc-home-video-wrapper {
+    height: 220px;
+  }
+  .vlc-home-cta-final {
+    border-radius: 12px;
+    margin: 20px auto;
+    padding: 40px 20px;
+  }
+  .vlc-home-modal-card {
+    padding: 2rem 1.25rem;
+  }
+  .vlc-home-modal-card h2 {
+    font-size: 1.4rem;
+  }
+  .vlc-home-contact-info p {
+    font-size: 1rem;
+  }
+  .vlc-home-btn-cta {
+    padding: 0.9rem 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .vlc-home-banner-text h1 {
+    font-size: 1.5rem;
+  }
+  .vlc-home-section {
+    padding: 36px 0;
+  }
+  .vlc-home-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .vlc-home-video-wrapper {
+    height: 185px;
+    border-radius: 12px;
+  }
+  .vlc-home-btn-cta,
+  .vlc-home-btn-cta-outline {
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 1rem;
+  }
+}
+
+.vlc-home-float-wa {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  background: #25d366;
+  color: white;
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  z-index: 1500;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: var(--vlc-transition);
+}
+
+.vlc-home-scroll-top {
+  position: fixed;
+  bottom: 95px; right: 20px;
+  background: var(--vlc-primary);
+  color: white;
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1500;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  transition: var(--vlc-transition);
+}
+
+.vlc-home-scroll-top:hover {
+  background: var(--vlc-primary-dark);
+  transform: scale(1.1);
+}
+
+@keyframes vlcFadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes vlcZoomIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 900px) {
+  .vlc-home-dual-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .vlc-home-banner-text h1 { font-size: 2rem; }
+  .vlc-home-video-wrapper { height: 250px; }
+}

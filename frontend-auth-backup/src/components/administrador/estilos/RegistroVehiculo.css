@@ -1,0 +1,164 @@
+:root {
+  --vlc-reg-primary: #279200;
+  --vlc-reg-primary-dark: #1e7300;
+  --vlc-reg-bg: #f8fafc;
+  --vlc-reg-text: #1e293b;
+  --vlc-reg-muted: #64748b;
+  --vlc-reg-border: #e2e8f0;
+  --vlc-reg-white: #ffffff;
+}
+
+.vlc-reg-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Inter', system-ui, sans-serif;
+  animation: vlcFadeIn 0.5s ease-out;
+}
+
+.vlc-reg-card {
+  background: var(--vlc-reg-white);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--vlc-reg-border);
+  overflow: hidden;
+}
+
+.vlc-reg-header {
+  padding: 2.5rem;
+  background-color: #fafbfc;
+  border-bottom: 1px solid var(--vlc-reg-border);
+  text-align: center;
+}
+
+.vlc-reg-header h2 {
+  color: var(--vlc-reg-primary);
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.vlc-reg-header p {
+  color: var(--vlc-reg-muted);
+  font-size: 0.95rem;
+}
+
+.vlc-reg-form {
+  padding: 2.5rem;
+}
+
+.vlc-reg-section {
+  margin-bottom: 2.5rem;
+}
+
+.vlc-reg-section h3 {
+  font-size: 1.1rem;
+  color: var(--vlc-reg-text);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vlc-reg-step {
+  background: var(--vlc-reg-primary);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.vlc-reg-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.vlc-reg-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vlc-reg-group.full {
+  grid-column: span 2;
+}
+
+.vlc-reg-group label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--vlc-reg-text);
+  letter-spacing: 0.5px;
+}
+
+.vlc-reg-group input,
+.vlc-reg-group select,
+.vlc-reg-group textarea {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--vlc-reg-border);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s;
+  background-color: #ffffff;
+}
+
+.vlc-reg-group input:focus,
+.vlc-reg-group select:focus,
+.vlc-reg-group textarea:focus {
+  border-color: var(--vlc-reg-primary);
+  box-shadow: 0 0 0 3px rgba(39, 146, 0, 0.1);
+}
+
+.vlc-reg-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.vlc-reg-error {
+  color: #dc2626;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.vlc-reg-submit {
+  width: 100%;
+  background-color: var(--vlc-reg-primary);
+  color: white;
+  padding: 1.2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 1rem;
+  box-shadow: 0 4px 12px rgba(39, 146, 0, 0.2);
+}
+
+.vlc-reg-submit:hover {
+  background-color: var(--vlc-reg-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(39, 146, 0, 0.3);
+}
+
+@keyframes vlcFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .vlc-reg-grid {
+    grid-template-columns: 1fr;
+  }
+  .vlc-reg-group.full {
+    grid-column: span 1;
+  }
+}

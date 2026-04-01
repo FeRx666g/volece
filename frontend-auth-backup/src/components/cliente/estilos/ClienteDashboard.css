@@ -1,0 +1,360 @@
+:root {
+  --vlc-primary: #279200;
+  --vlc-primary-dark: #1e7300;
+  --vlc-bg: #f8fafc;
+  --vlc-sidebar-dark: #1a1a2e;
+  --vlc-text-main: #1e293b;
+  --vlc-text-light: #64748b;
+  --vlc-white: #ffffff;
+  --vlc-sidebar-width: 260px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+.vlc-dash-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--vlc-bg);
+}
+
+.vlc-sidebar {
+  width: var(--vlc-sidebar-width);
+  background: var(--vlc-sidebar-dark);
+  color: white;
+  position: fixed;
+  height: 100vh;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.vlc-sidebar-logo {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.vlc-sidebar-logo h1 {
+  font-size: 1.5rem;
+}
+
+.vlc-sidebar-logo span {
+  color: var(--vlc-primary);
+}
+
+.vlc-nav-menu {
+  padding: 1.5rem 0;
+  flex-grow: 1;
+}
+
+.vlc-nav-item {
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  color: #cbd5e1;
+  transition: all 0.3s;
+  border-right: 4px solid transparent;
+}
+
+.vlc-nav-item:hover,
+.vlc-nav-item.active {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border-right-color: var(--vlc-primary);
+}
+
+.vlc-icon {
+  width: 18px;
+}
+
+.vlc-sidebar-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1rem 0;
+}
+
+.vlc-nav-item.logout:hover {
+  color: #f87171;
+  border-right-color: #f87171;
+}
+
+.vlc-main-content {
+  flex-grow: 1;
+  margin-right: var(--vlc-sidebar-width);
+  width: calc(100% - var(--vlc-sidebar-width));
+  display: flex;
+  flex-direction: column;
+}
+
+.vlc-dash-header {
+  background: var(--vlc-white);
+  height: 70px;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.vlc-content-body {
+  padding: 2rem;
+}
+
+.vlc-page-title {
+  font-size: 1.8rem;
+  color: var(--vlc-text-main);
+  margin-bottom: 2rem;
+}
+
+.vlc-stats-grid {
+  display: grid;
+  /* Cambiado a 2 columnas fijas */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.vlc-stat-card {
+  background: white;
+  /* Aumentado el padding y la altura mínima */
+  padding: 2.5rem;
+  min-height: 180px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid #eef2f6;
+  text-decoration: none;
+}
+
+.vlc-stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.vlc-stat-card.primary {
+  border-bottom: 4px solid var(--vlc-primary);
+}
+
+.vlc-stat-card.wa {
+  border-bottom: 4px solid #25d366;
+}
+
+.vlc-stat-card.logout {
+  border-bottom: 4px solid #f87171;
+}
+
+.vlc-stat-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.vlc-stat-label {
+  display: block;
+  color: var(--vlc-text-light);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.vlc-stat-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--vlc-text-main);
+  margin-bottom: 0.5rem;
+}
+
+.vlc-stat-desc {
+  font-size: 0.95rem;
+  color: var(--vlc-text-light);
+  line-height: 1.5;
+  max-width: 90%;
+}
+
+.vlc-stat-icon {
+  font-size: 3rem;
+  color: var(--vlc-primary);
+  opacity: 0.9;
+}
+
+.vlc-table-container {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eef2f6;
+}
+
+.vlc-modern-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.vlc-modern-table th {
+  background: var(--vlc-bg);
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--vlc-text-light);
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.vlc-modern-table td {
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: var(--vlc-text-main);
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.vlc-status-badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.vlc-status-badge.pendiente {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.vlc-status-badge.asignado {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.vlc-status-badge.completado {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.vlc-status-badge.rechazado {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.vlc-status-badge.cancelado {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.vlc-btn-cancel {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ef4444;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vlc-btn-cancel:hover {
+  transform: scale(1.1);
+  color: #dc2626;
+}
+
+.vlc-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .vlc-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .vlc-sidebar {
+    width: 70px;
+  }
+
+  .vlc-sidebar span,
+  .vlc-sidebar-logo h1 {
+    display: none;
+  }
+
+  .vlc-main-content {
+    margin-right: 70px;
+    width: calc(100% - 70px);
+  }
+}
+
+@media (max-width: 480px) {
+  .vlc-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    flex-direction: row;
+    top: auto;
+    right: auto;
+  }
+
+  .vlc-sidebar-logo {
+    display: none;
+  }
+
+  .vlc-nav-menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+    justify-content: center;
+    flex-grow: 0;
+  }
+
+  .vlc-nav-item {
+    padding: 0.6rem 1rem;
+    border-right: none;
+    border-bottom: 3px solid transparent;
+    font-size: 0.8rem;
+  }
+
+  .vlc-nav-item.active {
+    border-bottom-color: var(--vlc-primary);
+  }
+
+  .vlc-sidebar-footer {
+    display: none;
+  }
+
+  .vlc-main-content {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .vlc-content-body {
+    padding: 1rem;
+  }
+
+  .vlc-dash-wrapper {
+    flex-direction: column;
+  }
+}

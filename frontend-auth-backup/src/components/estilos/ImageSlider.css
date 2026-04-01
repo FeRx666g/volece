@@ -1,0 +1,139 @@
+:root {
+  --vlc-sld-green: #279200;
+  --vlc-sld-white: #ffffff;
+}
+
+.vlc-sld-main {
+  position: relative;
+  width: 90%;
+  max-width: 1400px;
+  margin: 40px auto;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.vlc-sld-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.vlc-sld-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+}
+
+.vlc-sld-slide.vlc-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.vlc-sld-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.6));
+}
+
+.vlc-sld-content {
+  position: relative;
+  z-index: 2;
+  color: var(--vlc-sld-white);
+  text-align: center;
+  max-width: 80%;
+  padding: 0 20px;
+  transform: translateY(20px);
+  transition: transform 0.8s ease-out;
+}
+
+.vlc-sld-slide.vlc-active .vlc-sld-content {
+  transform: translateY(0);
+}
+
+.vlc-sld-content h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+.vlc-sld-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  z-index: 3;
+  padding: 0 30px;
+  pointer-events: none;
+}
+
+.vlc-sld-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  pointer-events: auto;
+  font-size: 1.2rem;
+}
+
+.vlc-sld-btn:hover {
+  background-color: var(--vlc-sld-green);
+  border-color: var(--vlc-sld-green);
+  transform: scale(1.1);
+}
+
+.vlc-sld-dots {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 12px;
+}
+
+.vlc-sld-dot {
+  width: 12px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vlc-sld-dot.vlc-active {
+  background-color: var(--vlc-sld-green);
+  width: 30px;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .vlc-sld-main { height: 350px; width: 95%; }
+  .vlc-sld-content h2 { font-size: 1.5rem; }
+  .vlc-sld-btn { width: 40px; height: 40px; }
+}

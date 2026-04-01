@@ -1,0 +1,159 @@
+:root {
+  --vlc-rec-primary: #279200;
+  --vlc-rec-primary-dark: #1e7300;
+  --vlc-rec-bg: #f0f4f1;
+  --vlc-rec-white: #ffffff;
+  --vlc-rec-text: #1e293b;
+  --vlc-rec-muted: #64748b;
+}
+
+.vlc-rec-page {
+  background-color: var(--vlc-rec-bg);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  padding: 20px;
+  position: relative;
+}
+
+.vlc-rec-back-home {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  color: var(--vlc-rec-primary);
+  font-weight: 800;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.vlc-rec-back-home:hover {
+  text-decoration: underline;
+}
+
+.vlc-rec-card {
+  background: var(--vlc-rec-white);
+  width: 100%;
+  max-width: 500px;
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.1), 0 10px 10px rgba(0,0,0,0.1);
+  animation: vlcFadeIn 0.5s ease-out;
+}
+
+.vlc-rec-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.vlc-rec-form h1 {
+  color: var(--vlc-rec-primary);
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.vlc-rec-subtitle {
+  color: var(--vlc-rec-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.vlc-rec-input-group {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.vlc-rec-input-group input {
+  width: 100%;
+  padding: 14px 16px;
+  background-color: #f8fbf8;
+  border: 1px solid #e2eee2;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.vlc-rec-input-group input:focus {
+  border-color: var(--vlc-rec-primary);
+}
+
+.vlc-rec-btn-main {
+  width: 100%;
+  background-color: var(--vlc-rec-primary);
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.vlc-rec-btn-main:hover {
+  background-color: var(--vlc-rec-primary-dark);
+  transform: translateY(-2px);
+}
+
+.vlc-rec-btn-main:active {
+  transform: scale(0.98);
+}
+
+.vlc-rec-success {
+  color: #16a34a;
+  background-color: #f0fdf4;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.vlc-rec-error {
+  color: #dc2626;
+  background-color: #fef2f2;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.vlc-rec-footer-link {
+  font-size: 0.9rem;
+  color: var(--vlc-rec-muted);
+}
+
+.vlc-rec-footer-link span {
+  color: var(--vlc-rec-primary);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@keyframes vlcFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .vlc-rec-card {
+    padding: 2rem 1.5rem;
+  }
+  .vlc-rec-form h1 {
+    font-size: 1.5rem;
+  }
+}

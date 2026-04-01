@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Mantenimientos</title>
+    <style>
+        /* --- CONFIGURACIÓN DE PÁGINA --- */
+        @page {
+            size: A4;
+            margin: 1.5cm; /* Margen un poco más estrecho para aprovechar espacio */
+            @frame footer_frame {
+                -pdf-frame-content: footerContent;
+                bottom: 0.5cm;
+                margin-left: 1.5cm;
+                margin-right: 1.5cm;
+                height: 1cm;
+            }
+        }
+
+        /* --- TIPOGRAFÍA --- */
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 10pt;
+            color: #333333;
+            line-height: 1.4;
+        }
+
+        /* --- ENCABEZADO --- */
+        .header-container {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #166534;
+        }
+        .header-brand {
+            font-size: 22pt;
+            font-weight: bold;
+            color: #166534; /* Verde Corporativo */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .header-title {
+            font-size: 14pt;
+            color: #555;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        /* --- CAJA DE RESUMEN (FILTROS) --- */
+        .summary-box {
+            background-color: #f0fdf4; /* Verde muy claro */
+            border: 1px solid #bbf7d0;
+            padding: 8px 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-size: 9pt;
+            color: #14532d;
+        }
+
+        /* --- TABLA INFO SOCIO --- */
+        .info-table {
+            width: 100%;
+            margin-bottom: 25px;
+            border-collapse: collapse;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #444;
+            font-size: 9pt;
+            width: 15%;
+            padding: 4px 0;
+        }
+        .info-value {
+            color: #000;
+            font-size: 10pt;
+            width: 35%;
+            padding: 4px 0;
+            border-bottom: 1px dotted #ccc; /* Línea sutil para guiar el ojo */
+        }
+
+        /* --- TABLA DE DATOS PRINCIPAL --- */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+        
+        .data-table th {
+            background-color: #166534;
+            color: #ffffff;
+            font-weight: bold;
+            padding: 10px 8px;
+            text-align: left;
+            font-size: 8.5pt;
+            text-transform: uppercase;
+            border: 1px solid #166534;
+        }
+
+        .data-table td {
+            border: 1px solid #cbd5e1; /* Bordes grises finos */
+            padding: 8px;
+            font-size: 8.5pt;
+            vertical-align: top;
+        }
+
+        /* Zebra Striping */
+        .data-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        /* --- CELDAS DESTACADAS --- */
+        .col-placa {
+            font-weight: bold;
+            color: #15803d;
+        }
+        .col-km {
+            text-align: right;
+            font-family: monospace; /* Para alinear números mejor */
+            font-size: 9pt;
+        }
+        
+        /* Etiqueta para el tipo de servicio */
+        .type-badge {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 7.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* --- FOOTER --- */
+        #footerContent {
+            text-align: center;
+            font-size: 8pt;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="header-brand">VOLECE<span style="color:#000;">.CA</span></div>
+        <div class="header-title">Reporte de Historial de Mantenimientos</div>
+    </div>
+
+    <div class="summary-box">
+        <strong>Período del Reporte:</strong> 
+        Desde: <b>{{ filtros.desde }}</b> &nbsp;|&nbsp; 
+        Hasta: <b>{{ filtros.hasta }}</b>
+    </div>
+
+    <table class="info-table">
+        <tr>
+            <td class="info-label">Socio:</td>
+            <td class="info-value">{{ transportista.first_name }} {{ transportista.last_name }}</td>
+            
+            <td class="info-label">Fecha Emisión:</td>
+            <td class="info-value">{{ fecha }}</td>
+        </tr>
+        <tr>
+            <td class="info-label">Identificación:</td>
+            <td class="info-value">{{ transportista.cedula_ruc|default:"N/A" }}</td>
+            
+            <td class="info-label">Email:</td>
+            <td class="info-value">{{ transportista.email }}</td>
+        </tr>
+    </table>
+
+    {% if mantenimientos %}
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 12%;">Fecha</th>
+                <th style="width: 18%;">Vehículo</th>
+                <th style="width: 20%;">Servicio</th>
+                <th style="width: 12%;">KM Actual</th>
+                <th style="width: 12%;">Prox. KM</th>
+                <th style="width: 26%;">Observaciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in mantenimientos %}
+            <tr>
+                <td>{{ m.fecha_mantenimiento|date:"d/m/Y" }}</td>
+                
+                <td>
+                    <div class="col-placa">{{ m.vehiculo.placa }}</div>
+                    <div style="font-size: 7.5pt; color: #64748b;">{{ m.vehiculo.marca }} - {{ m.vehiculo.modelo }}</div>
+                </td>
+
+                <td>
+                    <span class="type-badge">{{ m.tipo.nombre|default:"-" }}</span>
+                </td>
+
+                <td class="col-km">{{ m.kilometraje_actual }}</td>
+                <td class="col-km" style="color: #c2410c; font-weight: bold;">{{ m.kilometraje_proximo }}</td>
+
+                <td style="text-align: justify;">
+                    {% if m.observaciones %}
+                        {{ m.observaciones }}
+                    {% else %}
+                        <span style="color: #cbd5e1;">-</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <div style="margin-top: 30px; padding: 20px; border: 2px dashed #cbd5e1; text-align: center; color: #64748b; background-color: #f8fafc; border-radius: 8px;">
+            <h3 style="margin: 0; font-weight: normal;">No se encontraron registros de mantenimiento</h3>
+            <p style="margin: 5px 0 0 0; font-size: 9pt;">Intente ampliar el rango de fechas seleccionado.</p>
+        </div>
+    {% endif %}
+
+    <div id="footerContent">
+        Reporte generado automáticamente por Sistema Volece | Página <pdf:pagenumber> de <pdf:pagecount>
+    </div>
+
+</body>
+</html>

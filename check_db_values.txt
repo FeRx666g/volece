@@ -1,0 +1,5 @@
+--- Inspecting DatasetTurnosIA ---
+ID: 5 | Transp: transportista1 | Fecha: 2026-01-04 | Estado: 'completado'
+ID: 6 | Transp: transportista2 | Fecha: 2026-01-07 | Estado: 'asignado'
+ID: 7 | Transp: transportista1 | Fecha: 2026-01-09 | Estado: 'completado'
+ID: 9 | Transp: usuariotest5 | Fecha: 2026-01-20 | Estado: 'asignado'

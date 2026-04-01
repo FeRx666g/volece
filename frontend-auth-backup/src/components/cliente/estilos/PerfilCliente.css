@@ -1,0 +1,144 @@
+.vlc-profile-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #e2e8f0;
+}
+
+.vlc-profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.vlc-input-group.full-width {
+    grid-column: 1 / -1;
+}
+.vlc-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.vlc-input-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #475569;
+    margin-left: 2px;
+}
+
+.vlc-input-group input {
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 2px solid #e2e8f0;
+    font-size: 1rem;
+    color: #1e293b;
+    transition: all 0.2s ease;
+    background-color: #ffffff;
+}
+
+.vlc-input-group input:focus {
+    outline: none;
+    border-color: #279200;
+    box-shadow: 0 0 0 3px rgba(39, 146, 0, 0.1);
+}
+
+.vlc-input-disabled {
+    background-color: #f8fafc !important;
+    border-color: #f1f5f9 !important;
+    color: #64748b !important;
+    cursor: default;
+}
+
+.vlc-input-locked {
+    background-color: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%2394a3b8" viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.vlc-profile-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.vlc-btn-edit {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s;
+}
+
+.vlc-btn-edit:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+}
+
+.vlc-edit-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.vlc-btn-save {
+    background-color: #279200;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s;
+}
+
+.vlc-btn-save:hover {
+    background-color: #1e7300;
+    transform: translateY(-2px);
+}
+
+.vlc-btn-cancel-edit {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s;
+}
+
+.vlc-btn-cancel-edit:hover {
+    background-color: #dc2626;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .vlc-profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vlc-profile-card {
+        padding: 20px;
+    }
+}

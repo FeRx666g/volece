@@ -1,0 +1,93 @@
+{
+  "name": "notificacion-transportista",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "notificacion-transportista",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -96,
+        0
+      ],
+      "id": "97bd824b-81c7-46c1-a2d2-34ef6923c8b8",
+      "name": "Webhook1",
+      "webhookId": "2a1d9ba5-e145-48d3-bfaf-a0dee4619d66"
+    },
+    {
+      "parameters": {
+        "from": "+14155238886",
+        "to": "={{ $json.body.telefono_envio }}",
+        "toWhatsapp": true,
+        "message": "=Hola *{{ $json.body.nombre_transportista }}*, se te ha asignado un nuevo servicio.  \n  \n📍 *Origen:* {{ $json.body.origen }} \n🏁 *Destino:* {{ $json.body.destino }} \n📅 *Fecha:* {{ $json.body.fecha_servicio }} \n\nPor favor ingresa a la app para ver más detalles.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        304,
+        0
+      ],
+      "id": "70608766-6760-4ac4-80c0-e4f8d2dbe588",
+      "name": "Send an SMS/MMS/WhatsApp message",
+      "credentials": {
+        "twilioApi": {
+          "id": "LHK94y0aDFynL9g1",
+          "name": "Twilio account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "\nfor (const item of items) {\n  let telefono = item.json.body.telefono;\n  \n  if (telefono) {\n    telefono = telefono.toString();\n\n    if (telefono.startsWith('0')) {\n      telefono = '+593' + telefono.slice(1);\n    } \n    else if (!telefono.startsWith('+')) {\n      if (telefono.startsWith('593')) {\n         telefono = '+' + telefono;\n      }\n    }\n  }\n  item.json.body.telefono_envio = telefono;\n}\n\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        112,
+        0
+      ],
+      "id": "3995d86f-e9f7-4682-89e8-6901c312ae01",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Send an SMS/MMS/WhatsApp message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d765b66a-5c84-44dc-8001-71aa785e8cd7",
+  "meta": {
+    "instanceId": "564b2b9adc1e6b5a4441336470d55c7ce3a4e45764da5a926e0c11e894426a76"
+  },
+  "id": "oy1FfaNIRNOV6pNH",
+  "tags": []
+}
