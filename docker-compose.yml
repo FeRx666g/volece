@@ -29,6 +29,7 @@ services:
     command: >
       bash -c "python manage.py makemigrations &&
                python manage.py migrate &&
+               python manage.py shell -c \"from gestion_finanzas.models import TarifaMensual; TarifaMensual.objects.get_or_create(monto=25.00)\" &&
                gunicorn --bind 0.0.0.0:8000 gestion_transporte.wsgi:application"
     environment:
       - DEBUG=False  # Para producción
