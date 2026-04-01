@@ -22,8 +22,8 @@ COPY requirements.txt /app/
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-# Gunicorn es el servidor recomendado para producción
-RUN pip install gunicorn
+# Instalamos gunicorn y aseguramos celery por si no estaba en pip freeze
+RUN pip install gunicorn celery redis
 
 COPY . /app/
 
