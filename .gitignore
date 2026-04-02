@@ -210,3 +210,5 @@ cython_debug/
 >>>>>>> recuperar-main-anterior
 volece_entorno/
 backend/volece_entorno/
+
+GUIA_DESPLIEGUE.md

@@ -9,7 +9,7 @@ const Auth = () => {
   const [registerForm, setRegisterForm] = useState({
     username: '', first_name: '', last_name: '',
     email: '', telefono: '', cedula_ruc: '',
-    password: '', rol: 'CLIENTE'
+    password: '', confirmPassword: '', rol: 'CLIENTE'
   });
 
   const [error, setError] = useState('');
@@ -73,10 +73,14 @@ const Auth = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
-    const { username, first_name, last_name, email, telefono, cedula_ruc, password } = registerForm;
+    const { username, first_name, last_name, email, telefono, cedula_ruc, password, confirmPassword } = registerForm;
 
-    if (!username || !first_name || !last_name || !email || !telefono || !cedula_ruc || !password) {
+    if (!username || !first_name || !last_name || !email || !telefono || !cedula_ruc || !password || !confirmPassword) {
       setError('Por favor, completa todos los campos.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('Las contraseñas no coinciden.');
       return;
     }
     if (!validarCedulaEcuatoriana(cedula_ruc)) {
@@ -175,7 +179,10 @@ const Auth = () => {
               <input type='text' name='telefono' placeholder='Teléfono' maxLength="10" required onChange={handleRegisterChange} />
               <input type='text' name='cedula_ruc' placeholder='Cédula/RUC' maxLength="13" required onChange={handleRegisterChange} />
             </div>
-            <input type='password' name='password' placeholder='Contraseña' required onChange={handleRegisterChange} />
+            <div className="vlc-auth-input-group">
+              <input type='password' name='password' placeholder='Contraseña' required onChange={handleRegisterChange} />
+              <input type='password' name='confirmPassword' placeholder='Confirmar Contraseña' required onChange={handleRegisterChange} />
+            </div>
             {error && !isLogin && <p className='vlc-auth-error'>{error}</p>}
             {success && <p className='vlc-auth-success'>{success}</p>}
             <button type='submit' className="vlc-auth-btn-main">Registrarse</button>
