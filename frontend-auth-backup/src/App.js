@@ -32,6 +32,7 @@ import AdminTiposVehiculos from './components/administrador/AdminTiposVehiculos'
 import AdminFinanzasMenu from './components/administrador/AdminFinanzasMenu';
 import AdminFinanzas from './components/administrador/AdminFinanzas';
 import AdminMensualidades from './components/administrador/AdminMensualidades';
+import AdminEstadoCuenta from './components/administrador/AdminEstadoCuenta';
 import AdminEstadisticas from './components/administrador/AdminEstadisticas';
 // componentes página de inicio
 import TiposDeCargas from './pages/TiposDeCargas';
@@ -82,6 +83,7 @@ function App() {
             <Route path="finanzas" element={<AdminFinanzasMenu />} />
             <Route path="finanzas/gestion" element={<AdminFinanzas />} />
             <Route path="finanzas/mensualidades" element={<AdminMensualidades />} />
+            <Route path="finanzas/estado-cuenta" element={<AdminEstadoCuenta />} />
           </Route>
 
           <Route path="/recuperar-password" element={<SolicitarRecuperacion />} />

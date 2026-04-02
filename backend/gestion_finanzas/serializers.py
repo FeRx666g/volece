@@ -24,34 +24,13 @@ class FinanzaSerializer(serializers.ModelSerializer):
         return None
 
     def _get_deuda_info(self, obj):
-        if not obj.socio or obj.tipo.nombre != 'Mensualidad':
-            return {'deuda': 0, 'meses': 0}
-        
-        from django.utils.timezone import now
-        from django.db.models import Sum
-        from .models import TarifaMensual
-        
-        hoy = now().date()
+        from .utils import calcular_deuda_transportista
         t = obj.socio
-        meses_activo = (hoy.year - t.date_joined.year) * 12 + (hoy.month - t.date_joined.month) + 1
-        if meses_activo <= 0:
-            meses_activo = 1
+        if not t:
+            return {'deuda': 0, 'meses': 0}
             
-        tarifas = TarifaMensual.objects.all()[:1]
-        cuota = tarifas[0].monto if len(tarifas) > 0 else 25.00
-        
-        total_pagado = Finanza.objects.filter(socio=t, tipo__nombre='Mensualidad').aggregate(Sum('monto'))['monto__sum'] or 0
-        total_esperado = float(meses_activo) * float(cuota)
-        deuda = max(0.0, total_esperado - float(total_pagado))
-        meses = deuda / float(cuota) if float(cuota) > 0 else 0
-        
-        # Redondeo para mostrar enteros si es exacto
-        if int(meses) == meses:
-            meses = int(meses)
-        else:
-            meses = round(meses, 1)
-            
-        return {'deuda': round(deuda, 2), 'meses': meses}
+        datos = calcular_deuda_transportista(t)
+        return {'deuda': datos['deuda_total'], 'meses': datos['meses_adeudados']}
 
     def get_meses_adeudados(self, obj):
         return self._get_deuda_info(obj)['meses']

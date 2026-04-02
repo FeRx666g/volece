@@ -18,8 +18,16 @@ export default function AdminFinanzasMenu() {
         <div className="vlc-veh-card">
           <FaMoneyBillWave className="vlc-veh-icon" />
           <Link to="mensualidades" className="vlc-veh-link">
-            <h2>Gestión de Mensualidades</h2>
-            <p>Registro y visualización del cobro de mensualidades a los socios transportistas</p>
+            <h2>Historial de Recibos</h2>
+            <p>Registro, edición y visualización del cobro de mensualidades a los transportistas</p>
+          </Link>
+        </div>
+
+        <div className="vlc-veh-card">
+          <FaChartLine className="vlc-veh-icon" style={{color: '#28a745'}}/>
+          <Link to="estado-cuenta" className="vlc-veh-link">
+            <h2>Estado de Cuenta de Socios</h2>
+            <p>Ver y exportar atrasos, deudas, estado financiero global y recibos de pago pendientes</p>
           </Link>
         </div>
       </section>

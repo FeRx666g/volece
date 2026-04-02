@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication 
 from django.db.models import Sum
+from django.utils.timezone import now
 from .models import Finanza, TipoFinanza, TarifaMensual
 from .serializers import FinanzaSerializer, TipoFinanzaSerializer
 from gestion_usuarios.permissions import IsAdminRol
@@ -86,6 +87,30 @@ class TarifaMensualView(APIView):
         monto = request.data.get('monto')
         if not monto:
             return Response({'error': 'Monto requerido'}, status=400)
-        
         nueva = TarifaMensual.objects.create(monto=monto)
         return Response({'monto': nueva.monto})
+
+class EstadoCuentaView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated, IsAdminRol]
+
+    def get(self, request):
+        from gestion_transporte.models import Usuario
+        from django.conf import settings
+        from .utils import calcular_deuda_transportista
+        
+        transportistas = Usuario.objects.filter(rol__codigo='TRANSP', is_active=True)
+        resultado = []
+        for t in transportistas:
+            datos = calcular_deuda_transportista(t)
+            
+            resultado.append({
+                'id_socio': t.id,
+                'nombre': f"{t.first_name} {t.last_name}",
+                'cedula': t.cedula_ruc,
+                'meses_adeudados': datos['meses_adeudados'],
+                'deuda_total': datos['deuda_total'],
+                'total_historico_pagado': datos['total_pagado']
+            })
+            
+        return Response(resultado)

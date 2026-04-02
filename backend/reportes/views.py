@@ -462,75 +462,140 @@ def reporte_mensualidades_pdf(request):
 
     fecha_inicio = request.GET.get('fecha_inicio')
     fecha_fin = request.GET.get('fecha_fin')
+    estado_deuda = request.GET.get('estado_deuda', '')
+    search = request.GET.get('search', '').lower()
 
     hoy = now().date()
-    if not fecha_inicio or not fecha_fin:
-        from calendar import monthrange
-        fecha_inicio_date = hoy.replace(day=1)
-        _, last_day = monthrange(hoy.year, hoy.month)
-        fecha_fin_date = hoy.replace(day=last_day)
-    else:
-        try:
-            fecha_inicio_date = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
-            fecha_fin_date = datetime.strptime(fecha_fin, "%Y-%m-%d").date()
-        except ValueError:
-            fecha_inicio_date = hoy.replace(day=1)
-            fecha_fin_date = hoy
 
+    qs = Finanza.objects.filter(tipo__nombre='Mensualidad').order_by('-fecha', '-id').select_related('socio', 'usuario')
+
+    if fecha_inicio:
+        try:
+            fecha_d = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+            qs = qs.filter(fecha__gte=fecha_d)
+        except ValueError:
+            pass
+
+    if fecha_fin:
+        try:
+            fecha_h = datetime.strptime(fecha_fin, "%Y-%m-%d").date()
+            qs = qs.filter(fecha__lte=fecha_h)
+        except ValueError:
+            pass
+            
+    if search:
+        qs = qs.filter(
+            Q(socio__first_name__icontains=search) |
+            Q(socio__last_name__icontains=search) |
+            Q(socio__cedula_ruc__icontains=search) |
+            Q(usuario__first_name__icontains=search) |
+            Q(usuario__username__icontains=search)
+        )
+
+    resultado = []
+    
+    from django.conf import settings
+    from gestion_finanzas.models import TarifaMensual
+    from gestion_finanzas.utils import calcular_deuda_transportista
+
+    for mov in qs:
+        t = mov.socio
+        if not t:
+            continue
+            
+        datos = calcular_deuda_transportista(t)
+        deuda_total = datos['deuda_total']
+        meses_adeudados = datos['meses_adeudados']
+        
+        if estado_deuda == 'deuda' and deuda_total <= 0:
+            continue
+        if estado_deuda == 'aldia' and deuda_total != 0:
+            continue
+        if estado_deuda == 'adelantado' and deuda_total >= 0:
+            continue
+
+        resultado.append({
+            'fecha': mov.fecha.strftime('%d/%m/%Y'),
+            'transportista': f"{t.first_name} {t.last_name}",
+            'cedula': t.cedula_ruc,
+            'monto_pagado': float(mov.monto),
+            'deuda_total': deuda_total,
+            'meses_adeudados': meses_adeudados,
+            'registrado_por': mov.usuario.username if mov.usuario else 'Sistema'
+        })
+
+    html = template.render({
+        'resultados': resultado,
+        'fecha_gen': hoy.strftime('%d/%m/%Y'),
+        'filtros': {
+            'desde': fecha_inicio or 'El inicio de los tiempos', 
+            'hasta': fecha_fin or hoy.strftime('%Y-%m-%d'),
+            'search': search,
+            'estado': estado_deuda
+        }
+    })
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="historial_recibos_mensualidades.pdf"'
+    
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    if pisa_status.err:
+        return HttpResponse('Error generando PDF', status=500)
+    return response
+
+def reporte_estado_cuenta_pdf(request):
+    template = get_template('reportes/estado_cuenta_pdf.html')
+
+    estado_deuda = request.GET.get('estado_deuda', '')
+    search = request.GET.get('search', '').lower()
+
+    hoy = now().date()
     transportistas = Usuario.objects.filter(rol__codigo='TRANSP', is_active=True)
+    
+    if search:
+        transportistas = transportistas.filter(
+            Q(first_name__icontains=search) |
+            Q(last_name__icontains=search) |
+            Q(cedula_ruc__icontains=search)
+        )
         
     resultado = []
     
     from django.conf import settings
-    
-    cuota = getattr(settings, 'CUOTA_MENSUAL_DEFAULT', 25.00)
+    from gestion_finanzas.models import TarifaMensual
+    from gestion_finanzas.utils import calcular_deuda_transportista
 
     for t in transportistas:
-        # Calcular meses que el usuario ha estado activo
-        meses_activo = (hoy.year - t.date_joined.year) * 12 + (hoy.month - t.date_joined.month) + 1
-        if meses_activo <= 0:
-            meses_activo = 1
-            
-        # Calcular el monto total que ha pagado historicamente por concepto de Mensualidad
-        total_pagado = Finanza.objects.filter(socio=t, tipo__nombre='Mensualidad').aggregate(Sum('monto'))['monto__sum'] or 0
+        datos = calcular_deuda_transportista(t)
+        deuda_total = datos['deuda_total']
+        meses_adeudados = datos['meses_adeudados']
+        total_pagado = datos['total_pagado']
         
-        # Lo que ha debido de pagar desde que ingresó (meses activos * valor de cuota)
-        total_esperado = meses_activo * cuota
-        deuda_total = max(0, float(total_esperado) - float(total_pagado))
-        
-        # Para que el usuario vea un número entero en meses o una aproximación con decimal de los meses de deuda
-        meses_adeudados = round(deuda_total / cuota, 1) if cuota > 0 else 0
-        # si es '2.0', lo dejamos en '2'
-        if int(meses_adeudados) == meses_adeudados:
-            meses_adeudados = int(meses_adeudados)
-        
-        # Verificar si pagó en el rango de fechas seleccionado (mes evaluado)
-        pago_mes = Finanza.objects.filter(
-            socio=t, 
-            tipo__nombre='Mensualidad', 
-            fecha__gte=fecha_inicio_date, 
-            fecha__lte=fecha_fin_date
-        ).aggregate(Sum('monto'))['monto__sum'] or 0
-
-        estado = "PAGADO" if pago_mes > 0 else "PENDIENTE"
+        # Filtros manuales en Python
+        if estado_deuda == 'deuda' and deuda_total <= 0:
+            continue
+        if estado_deuda == 'aldia' and deuda_total != 0:
+            continue
+        if estado_deuda == 'adelantado' and deuda_total >= 0:
+            continue
 
         resultado.append({
             'nombre': f"{t.first_name} {t.last_name}",
             'cedula': t.cedula_ruc,
-            'estado': estado,
-            'monto_pagado': pago_mes,
+            'deuda_total': deuda_total,
             'meses_adeudados': meses_adeudados,
-            'deuda_total': deuda_total  
+            'pagado_historico': total_pagado
         })
 
     html = template.render({
         'resultados': resultado,
         'fecha': hoy.strftime('%d/%m/%Y'),
-        'filtros': {'desde': fecha_inicio_date.strftime('%d/%m/%Y'), 'hasta': fecha_fin_date.strftime('%d/%m/%Y')}
+        'filtro_estado': estado_deuda or 'Todos',
+        'filtro_busqueda': search
     })
 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="reporte_mensualidades.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="estado_cuenta_socios.pdf"'
     
     pisa_status = pisa.CreatePDF(html, dest=response)
     if pisa_status.err:

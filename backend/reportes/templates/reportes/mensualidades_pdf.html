@@ -17,13 +17,14 @@
             border-bottom: 2px solid #0056b3;
             padding-bottom: 10px;
         }
-        h1 { color: #0056b3; margin: 0; font-size: 22px; }
+        h1 { color: #0056b3; margin: 0; font-size: 20px; }
         .fecha-gen { color: #666; font-size: 10px; margin-top: 5px; }
+        .filtros-aplicados { margin-top: 10px; font-size: 11px; color: #555; text-align: left; }
 
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         .data-table th {
             background-color: #0056b3;
@@ -40,57 +41,62 @@
         
         .txt-verde { color: #28a745; font-weight: bold; }
         .txt-rojo { color: #dc3545; font-weight: bold; }
-        .txt-naranja { color: #fd7e14; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Reporte de Cumplimiento de Mensualidades - Socios</h1>
-        <div class="fecha-gen">Generado el: {{ fecha }}</div>
-        <div class="fecha-gen">Periodo Evaluado: {{ filtros.desde }} al {{ filtros.hasta }}</div>
+        <h1>Historial de Recibos de Mensualidades</h1>
+        <div class="fecha-gen">Reporte generado el: {{ fecha_gen }}</div>
+        
+        <div class="filtros-aplicados">
+            <strong>Filtros aplicados:</strong> <br/>
+            - Rango de fechas: {{ filtros.desde }} al {{ filtros.hasta }} <br/>
+            - Estado financiero resultante: 
+            {% if filtros.estado == 'deuda' %} Socios en Mora 
+            {% elif filtros.estado == 'aldia' %} Socios al Día Exacto
+            {% elif filtros.estado == 'adelantado' %} Socios con Saldo Adelantado
+            {% else %} Todos {% endif %}
+            
+            {% if filtros.search %} | Búsqueda refinada: "{{ filtros.search }}" {% endif %}
+        </div>
     </div>
 
     <table class="data-table">
         <thead>
             <tr>
-                <th width="30%">Socio / Transportista</th>
-                <th width="15%">Cédula</th>
-                <th width="15%">Estado (Mes)</th>
-                <th width="15%" align="center">Meses Atrasados</th>
-                <th width="25%" align="right">Deuda Total Acumulada</th>
+                <th width="12%">Fecha</th>
+                <th width="30%">Transportista / Socio</th>
+                <th width="15%">Abono Efectuado</th>
+                <th width="23%">Deuda Resultante</th>
+                <th width="20%">Registrado Por</th>
             </tr>
         </thead>
         <tbody>
-            {% for fila in resultados %}
+            {% for rec in resultados %}
             <tr>
-                <td>{{ fila.nombre }}</td>
-                <td>{{ fila.cedula }}</td>
+                <td>{{ rec.fecha }}</td>
                 <td>
-                    {% if fila.estado == 'PAGADO' %}
-                        <span class="txt-verde">Pagó ({{ fila.monto_pagado }})</span>
+                    <b>{{ rec.transportista }}</b><br>
+                    <span style="font-size:10px; color:#666;">C.I: {{ rec.cedula }}</span>
+                </td>
+                <td class="txt-verde">+ ${{ rec.monto_pagado|floatformat:2 }}</td>
+                <td>
+                    {% if rec.deuda_total > 0 %}
+                        <div class="txt-rojo">Deuda: ${{ rec.deuda_total|floatformat:2 }}</div>
+                        <div style="font-size: 10px; color: #dc3545;">({{ rec.meses_adeudados }} meses)</div>
+                    {% elif rec.deuda_total < 0 %}
+                        <div class="txt-verde">Adelanto (Favor):</div>
+                        <div style="font-size: 10px; color: #28a745;">${{ rec.deuda_total|stringformat:"f"|slice:"1:" }}</div>
                     {% else %}
-                        <span class="txt-rojo">No Pagó</span>
+                        <div class="txt-verde">Al día ($0.00)</div>
                     {% endif %}
                 </td>
-                <td align="center">
-                    {% if fila.meses_adeudados == 0 %}
-                        <span class="txt-verde">Al día (0)</span>
-                    {% else %}
-                        <span class="txt-naranja">{{ fila.meses_adeudados }} mes(es)</span>
-                    {% endif %}
-                </td>
-                <td align="right">
-                    {% if fila.deuda_total == 0 %}
-                        <span class="txt-verde">$0.00</span>
-                    {% else %}
-                        <span class="txt-rojo"><strong>${{ fila.deuda_total }}</strong></span>
-                    {% endif %}
-                </td>
+                <td>{{ rec.registrado_por }}</td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="5" align="center" style="padding: 20px;">No se encontraron socios registrados.</td>
+                <td colspan="5" align="center" style="padding: 20px;">No hubo ninguna transacción registrada con estos filtros.</td>
             </tr>
             {% endfor %}
         </tbody>

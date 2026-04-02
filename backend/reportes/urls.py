@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('finanzas-pdf/', views.reporte_finanzas_pdf, name='finanzas_pdf'),
     path('mensualidades-pdf/', views.reporte_mensualidades_pdf, name='mensualidades_pdf'),
+    path('estado-cuenta-pdf/', views.reporte_estado_cuenta_pdf, name='estado_cuenta_pdf'),
 
     path('mantenimientos-pdf/', views.reporte_mantenimientos_pdf, name='reporte_mantenimientos_pdf'),
     path('viajes-transportista/', views.reporte_viajes_transportista, name='reporte_viajes_transportista'),

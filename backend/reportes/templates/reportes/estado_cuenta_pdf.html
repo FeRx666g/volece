@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: Helvetica, sans-serif;
+            font-size: 12px;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #28a745;
+            padding-bottom: 10px;
+        }
+        h1 { color: #28a745; margin: 0; font-size: 22px; }
+        .fecha-gen { color: #666; font-size: 10px; margin-top: 5px; }
+        .filtros-aplicados { margin-top: 10px; font-size: 11px; color: #555; text-align: left; }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .data-table th {
+            background-color: #28a745;
+            color: white;
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+        }
+        .data-table td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+        }
+        .data-table tr:nth-child(even) { background-color: #f2f2f2; }
+        
+        .txt-verde { color: #28a745; font-weight: bold; }
+        .txt-rojo { color: #dc3545; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Estado de Cuenta Financiero - Socios</h1>
+        <div class="fecha-gen">Reporte generado el: {{ fecha }}</div>
+        
+        <div class="filtros-aplicados">
+            <strong>Filtros aplicados:</strong> 
+            {% if filtro_estado == 'deuda' %} Socios en Mora 
+            {% elif filtro_estado == 'aldia' %} Socios al Día 
+            {% elif filtro_estado == 'adelantado' %} Socios Adelantados 
+            {% else %} Todos los Socios {% endif %}
+            
+            {% if filtro_busqueda %} | Búsqueda: "{{ filtro_busqueda }}" {% endif %}
+        </div>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th width="35%">Transportista / Socio</th>
+                <th width="15%">Cédula</th>
+                <th width="20%">Aportes (Histórico)</th>
+                <th width="30%">Balance Actual</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fila in resultados %}
+            <tr>
+                <td>{{ fila.nombre }}</td>
+                <td>{{ fila.cedula }}</td>
+                <td class="txt-verde">${{ fila.pagado_historico|floatformat:2 }}</td>
+                <td>
+                    {% if fila.deuda_total > 0 %}
+                        <div class="txt-rojo">Deuda: ${{ fila.deuda_total|floatformat:2 }}</div>
+                        <div style="font-size: 10px; color: #dc3545;">({{ fila.meses_adeudados }} meses)</div>
+                    {% elif fila.deuda_total < 0 %}
+                        <div class="txt-verde">Adelanto (Favor):</div>
+                        <div style="font-size: 10px; color: #28a745;">${{ fila.deuda_total|stringformat:"f"|slice:"1:" }}</div>
+                    {% else %}
+                        <div class="txt-verde">Al día ($0.00)</div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" align="center" style="padding: 20px;">No se encontraron socios que coincidan con la búsqueda o filtro.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
