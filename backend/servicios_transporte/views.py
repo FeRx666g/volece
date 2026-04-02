@@ -20,6 +20,8 @@ from gestion_vehiculos.models import Vehiculo
 from gestion_usuarios.models import Usuario
 from gestion_usuarios.permissions import IsAdminRol
 
+from django.conf import settings
+
 class EstadoSolicitudViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = EstadoSolicitud.objects.all()
     serializer_class = EstadoSolicitudSerializer
@@ -68,9 +70,6 @@ class SolicitudDetailView(generics.RetrieveUpdateAPIView):
     queryset = SolicitudServicio.objects.all()
     serializer_class = SolicitudServicioSerializer
     permission_classes = [IsAdminRol]
-
-N8N_URL_ASIGNAR_TURNO = "http://localhost:5678/webhook/asignar-turno-ai"
-N8N_WEBHOOK_WHATSAPP = "http://localhost:5678/webhook/notificacion-transportista"
  
 class AsignarTurnoIAView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -105,7 +104,7 @@ class AsignarTurnoIAView(APIView):
         }
 
         try:
-            resp = requests.post(N8N_URL_ASIGNAR_TURNO, json=payload, timeout=60)
+            resp = requests.post(settings.N8N_URL_ASIGNAR_TURNO, json=payload, timeout=60)
             resp.raise_for_status()
             data = resp.json()
 
@@ -246,8 +245,8 @@ class CrearTurnoDesdeSolicitudView(APIView):
             }
 
             try:
-                print(f"Enviando webhook a {N8N_WEBHOOK_WHATSAPP}")
-                requests.post(N8N_WEBHOOK_WHATSAPP, json=payload_whatsapp, timeout=5)
+                print(f"Enviando webhook a {settings.N8N_URL_WHATSAPP}")
+                requests.post(settings.N8N_URL_WHATSAPP, json=payload_whatsapp, timeout=5)
             except requests.exceptions.RequestException as e:
                 print(f"ERROR: Fallo la conexión con el webhook de n8n: {e}")
 

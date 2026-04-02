@@ -186,5 +186,14 @@ CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
 # Valor por defecto de la cuota mensual de los socios
 CUOTA_MENSUAL_DEFAULT = 25.00
 
+# URLs de n8n Webhooks (leídas desde .env o con valor por defecto local)
+# Si estamos en Docker VPS, N8N_WEBHOOK_URL debería ser http://n8n:5678/
+N8N_BASE_URL = os.environ.get('N8N_WEBHOOK_URL', 'http://localhost:5678/')
+if not N8N_BASE_URL.endswith('/'):
+    N8N_BASE_URL += '/'
+
+N8N_URL_ASIGNAR_TURNO = f"{N8N_BASE_URL}webhook/asignar-turno-ai"
+N8N_URL_WHATSAPP = f"{N8N_BASE_URL}webhook/notificacion-transportista"
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
