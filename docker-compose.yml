@@ -55,7 +55,7 @@ services:
       - backend
       - redis
 
-  # 5. Frontend (React servido en Nginx)
+  # 5. Frontend (React servido en Nginx interno)
   frontend:
     build: 
       context: ./frontend-auth-backup
@@ -63,7 +63,7 @@ services:
         - REACT_APP_API_URL=${REACT_APP_API_URL:-http://127.0.0.1:8000/api}
     restart: always
     ports:
-      - "80:80"
+      - "8080:80"
 
   # 6. Servidor n8n Automations
   n8n:
