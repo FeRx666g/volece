@@ -167,6 +167,13 @@ REST_FRAMEWORK = {
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+# Configuraciones cruciales para HTTPS y Nginx
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = [
+    'https://volece.me',
+    'https://www.volece.me',
+]
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=8),  # dura 8 horas el token 
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  # dura 1 día el refresh
