@@ -195,12 +195,17 @@ CUOTA_MENSUAL_DEFAULT = 25.00
 
 # URLs de n8n Webhooks (leídas desde .env o con valor por defecto local)
 # Si estamos en Docker VPS, N8N_WEBHOOK_URL debería ser http://n8n:5678/
-N8N_BASE_URL = os.environ.get('N8N_WEBHOOK_URL', 'http://localhost:5678/')
+N8N_BASE_URL = os.environ.get('N8N_WEBHOOK_URL', 'http://n8n:5678/')
 if not N8N_BASE_URL.endswith('/'):
     N8N_BASE_URL += '/'
 
-N8N_URL_ASIGNAR_TURNO = f"{N8N_BASE_URL}webhook/asignar-turno-ai"
-N8N_URL_WHATSAPP = f"{N8N_BASE_URL}webhook/notificacion-transportista"
+# URL interna para evitar salir a internet, pasando directo por el cable de Docker (ultra rapido y sin bloqueos de Nginx)
+N8N_INTERNAL_URL = os.environ.get('N8N_INTERNAL_URL', 'http://n8n:5678/')
+if not N8N_INTERNAL_URL.endswith('/'):
+    N8N_INTERNAL_URL += '/'
+
+N8N_URL_ASIGNAR_TURNO = f"{N8N_INTERNAL_URL}webhook/asignar-turno-ai"
+N8N_URL_WHATSAPP = f"{N8N_INTERNAL_URL}webhook/notificacion-transportista"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
